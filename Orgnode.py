@@ -42,7 +42,7 @@ def _re_compile_date():
     '<2010-06-21 Mon 12:00>--<2010-06-21 Mon 12:00>'
     >>> m.group(16)
     """
-    date_pattern = "<(\d+)\-(\d+)\-(\d+)([^>\d]*)((\d+)\:(\d+))?>"
+    date_pattern = "[\[<]?(\d+)\-(\d+)\-(\d+)([^>^\]^\d]*)((\d+)\:(\d+))?[\]>]?"
     re_date = re.compile('(%(dtp)s--%(dtp)s)|(%(dtp)s)'
                          % dict(dtp=date_pattern))
     return re_date
