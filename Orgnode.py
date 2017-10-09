@@ -331,6 +331,8 @@ def makelist(filename, todo_default=['TODO', 'DONE']):
             while len(ancestors) > l2:
                 ancestors.pop()
         n2.setParent(ancestors[-1])
+        if len(ancestors) > 1:
+            ancestors[-1].setChild(n2)
         n1 = n2
         l1 = l2
 
@@ -364,6 +366,7 @@ class Orgnode(object):
         self.datelist = []
         self.rangelist = []
         self.parent = None
+        self.childrenlist = []
 
         # Look for priority in headline and transfer to prty field
 
@@ -569,6 +572,39 @@ class Orgnode(object):
         Return parent node if exist else None.
         """
         return self.parent
+
+    def ParentsList(self):
+        """
+        Return parent nodes list.
+        """
+        n = self
+        parentslist = []
+        while n.parent:
+            parentslist.append(n.parent)
+            n = n.parent
+        return parentslist
+
+    def setChild(self, child):
+        """
+        Add a node to children
+        """
+        self.childrenlist.append(child)
+
+    def Children(self):
+        """
+        Return children nodes list if exist else None.
+        """
+        return self.childrenlist
+
+    def ChildrenList(self):
+        """
+        Return children nodes list if exist else None.
+        """
+        childrentree = []
+        for c in self.childrenlist:
+            childrentree.append(c)
+            childrentree += c.ChildrenList() if c.ChildrenList() else []
+        return childrentree
 
     def Root(self):
         """
